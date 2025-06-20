@@ -1,6 +1,7 @@
 from PIL import Image, ImageDraw, ImageFont
 from io import BytesIO
 from datetime import datetime
+import pytz
 
 # Timezone Indonesia WIB
 WIB = pytz.timezone("Asia/Jakarta")
