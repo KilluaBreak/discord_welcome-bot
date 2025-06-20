@@ -67,7 +67,7 @@ async def generate_image(member, member_count, base_path):
 
 # Fungsi untuk welcome
 async def generate_welcome_image(member, member_count):
-    return await generate_image(member, member_count, "assets/welcome_template.png")
+    return await generate_image(member, member_count, "assets/welcome_template.webp")
 
 # Fungsi untuk goodbye
 async def generate_goodbye_image(member, member_count):
