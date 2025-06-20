@@ -1,7 +1,6 @@
 from PIL import Image, ImageDraw, ImageFont
 from io import BytesIO
 from datetime import datetime
-import pytz
 
 # Timezone Indonesia WIB
 WIB = pytz.timezone("Asia/Jakarta")
@@ -13,9 +12,7 @@ FONT_PATH = "fonts/Kingthings_Exeter.ttf"
 AVATAR_SIZE = (180, 180)
 AVATAR_POSITION = (310, 120)
 NAME_POSITION = (400, 40)
-SUBTITLE_POSITION = (400, 80)
 USER_NUMBER_POSITION = (400, 330)
-BOTTOM_TEXT_POSITION = (400, 365)
 DATE_POSITION = (40, 370)
 TIME_POSITION = (740, 370)
 
@@ -54,12 +51,8 @@ async def generate_image(member, member_count, base_path):
 
     # Nama user
     draw.text(NAME_POSITION, member.name.upper(), font=font_big, anchor="mm", fill="white")
-    # Subjudul
-    draw.text(SUBTITLE_POSITION, "Di YugenX | Style Your Isekai", font=font_small, anchor="mm", fill="white")
     # Nomor ke berapa
     draw.text(USER_NUMBER_POSITION, f"#{member_count}", font=font_medium, anchor="mm", fill="white")
-    # Kalimat tambahan
-    draw.text(BOTTOM_TEXT_POSITION, "Semoga Betah Yah!", font=font_medium, anchor="mm", fill="white")
     # Tanggal dan Jam
     draw.text(DATE_POSITION, f"Tanggal: {tanggal}", font=font_small, fill="white")
     draw.text(TIME_POSITION, f"Jam: {jam}", font=font_small, anchor="rd", fill="white")
