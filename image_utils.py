@@ -22,14 +22,14 @@ async def generate_image(member, member_count, base_path):
     avatar_asset = member.display_avatar.replace(format="png", size=256)
     avatar_bytes = await avatar_asset.read()
     avatar = Image.open(BytesIO(avatar_bytes)).convert("RGBA")
-    avatar = avatar.resize((160, 160))
+    avatar = avatar.resize((240, 240))
     avatar = crop_circle(avatar)
     base.paste(avatar, (base.width//2 - 80, base.height//2 - 80), avatar)
 
     draw = ImageDraw.Draw(base)
-    font_main = ImageFont.truetype(FONT_PATH, 32)
-    font_small = ImageFont.truetype(FONT_PATH, 20)
-    font_count = ImageFont.truetype(FONT_PATH, 26)
+    font_main = ImageFont.truetype(FONT_PATH, 57)
+    font_small = ImageFont.truetype(FONT_PATH, 45)
+    font_count = ImageFont.truetype(FONT_PATH, 51)
 
     now = datetime.now(WIB)
     tanggal = now.strftime("%d/%m/%Y")
