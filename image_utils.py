@@ -38,8 +38,8 @@ async def generate_image(member, member_count, base_path):
 
     draw.text((base.width//2, 40), f"user #{member_count}", font=font_count, anchor="mm", fill="#cc00ff")
     draw.text((base.width//2, base.height - 55), username, font=font_main, anchor="mm", fill="white")
-    draw.text((30, base.height - 45), {tanggal}", font=font_small, fill="white")
-    draw.text((base.width - 30, base.height - 40), {jam}", font=font_small, anchor="rd", fill="white")
+    draw.text((30, base.height - 45), f"{tanggal}", font=font_small, fill="white")
+    draw.text((base.width - 30, base.height - 40), f"{jam}", font=font_small, anchor="rd", fill="white")
 
     output = BytesIO()
     output.name = "welcome.png"
