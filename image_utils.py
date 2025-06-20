@@ -1,13 +1,25 @@
 from PIL import Image, ImageDraw, ImageFont
-import requests
 from io import BytesIO
-from datetime import datetime, timezone, timedelta
+from datetime import datetime
+import pytz
 
-FONT_PATH = "fonts/RobotoSlab-Bold.ttf"
-WELCOME_TEMPLATE = "templates/welcome_base.webp"
-GOODBYE_TEMPLATE = "templates/goodbye_base.png"
-WIB = timezone(timedelta(hours=7))
+# Timezone Indonesia WIB
+WIB = pytz.timezone("Asia/Jakarta")
 
+# Path ke font Kingthings Exeter
+FONT_PATH = "fonts/Kingthings_Exeter.ttf"
+
+# Ukuran & Posisi berdasarkan gambar 803x451
+AVATAR_SIZE = (180, 180)
+AVATAR_POSITION = (310, 120)
+NAME_POSITION = (400, 40)
+SUBTITLE_POSITION = (400, 80)
+USER_NUMBER_POSITION = (400, 330)
+BOTTOM_TEXT_POSITION = (400, 365)
+DATE_POSITION = (40, 370)
+TIME_POSITION = (740, 370)
+
+# Buat crop foto jadi lingkaran
 def crop_circle(image):
     mask = Image.new("L", image.size, 0)
     draw = ImageDraw.Draw(mask)
@@ -16,39 +28,53 @@ def crop_circle(image):
     result.paste(image, (0, 0), mask)
     return result
 
+# Fungsi utama generate gambar
 async def generate_image(member, member_count, base_path):
     base = Image.open(base_path).convert("RGBA")
 
+    # Ambil avatar user
     avatar_asset = member.display_avatar.replace(format="png", size=256)
     avatar_bytes = await avatar_asset.read()
     avatar = Image.open(BytesIO(avatar_bytes)).convert("RGBA")
-    avatar = avatar.resize((230, 230))
+    avatar = avatar.resize(AVATAR_SIZE)
     avatar = crop_circle(avatar)
-    base.paste(avatar, (base.width//2 - 90, base.height//2 - 90), avatar)
+    base.paste(avatar, AVATAR_POSITION, avatar)
 
-    draw = ImageDraw.Draw(base)
-    font_main = ImageFont.truetype(FONT_PATH, 44)
-    font_small = ImageFont.truetype(FONT_PATH, 32)
-    font_count = ImageFont.truetype(FONT_PATH, 38)
+    # Font
+    font_big = ImageFont.truetype(FONT_PATH, 36)
+    font_medium = ImageFont.truetype(FONT_PATH, 28)
+    font_small = ImageFont.truetype(FONT_PATH, 20)
 
+    # Data waktu
     now = datetime.now(WIB)
     tanggal = now.strftime("%d/%m/%Y")
     jam = now.strftime("%H:%M:%S")
-    username = member.name
 
-    draw.text((base.width//2, 40), f"user #{member_count}", font=font_count, anchor="mm", fill="#cc00ff")
-    draw.text((base.width//2, base.height - 55), username, font=font_main, anchor="mm", fill="white")
-    draw.text((30, base.height - 45), f"{tanggal}", font=font_small, fill="white")
-    draw.text((base.width - 30, base.height - 40), f"{jam}", font=font_small, anchor="rd", fill="white")
+    draw = ImageDraw.Draw(base)
 
+    # Nama user
+    draw.text(NAME_POSITION, member.name.upper(), font=font_big, anchor="mm", fill="white")
+    # Subjudul
+    draw.text(SUBTITLE_POSITION, "Di YugenX | Style Your Isekai", font=font_small, anchor="mm", fill="white")
+    # Nomor ke berapa
+    draw.text(USER_NUMBER_POSITION, f"#{member_count}", font=font_medium, anchor="mm", fill="white")
+    # Kalimat tambahan
+    draw.text(BOTTOM_TEXT_POSITION, "Semoga Betah Yah!", font=font_medium, anchor="mm", fill="white")
+    # Tanggal dan Jam
+    draw.text(DATE_POSITION, f"Tanggal: {tanggal}", font=font_small, fill="white")
+    draw.text(TIME_POSITION, f"Jam: {jam}", font=font_small, anchor="rd", fill="white")
+
+    # Output hasil
     output = BytesIO()
-    output.name = "welcome.png"
+    output.name = "image.png"
     base.save(output, format="PNG")
     output.seek(0)
     return output
 
+# Fungsi untuk welcome
 async def generate_welcome_image(member, member_count):
-    return await generate_image(member, member_count, WELCOME_TEMPLATE)
+    return await generate_image(member, member_count, "assets/welcome_template.png")
 
+# Fungsi untuk goodbye
 async def generate_goodbye_image(member, member_count):
-    return await generate_image(member, member_count, GOODBYE_TEMPLATE)
+    return await generate_image(member, member_count, "assets/goodbye_template.png")
