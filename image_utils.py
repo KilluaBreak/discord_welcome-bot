@@ -22,24 +22,24 @@ async def generate_image(member, member_count, base_path):
     avatar_asset = member.display_avatar.replace(format="png", size=256)
     avatar_bytes = await avatar_asset.read()
     avatar = Image.open(BytesIO(avatar_bytes)).convert("RGBA")
-    avatar = avatar.resize((240, 240))
+    avatar = avatar.resize((230, 230))
     avatar = crop_circle(avatar)
-    base.paste(avatar, (base.width//2 - 80, base.height//2 - 80), avatar)
+    base.paste(avatar, (base.width//2 - 90, base.height//2 - 90), avatar)
 
     draw = ImageDraw.Draw(base)
-    font_main = ImageFont.truetype(FONT_PATH, 57)
-    font_small = ImageFont.truetype(FONT_PATH, 45)
-    font_count = ImageFont.truetype(FONT_PATH, 51)
+    font_main = ImageFont.truetype(FONT_PATH, 44)
+    font_small = ImageFont.truetype(FONT_PATH, 32)
+    font_count = ImageFont.truetype(FONT_PATH, 38)
 
     now = datetime.now(WIB)
     tanggal = now.strftime("%d/%m/%Y")
     jam = now.strftime("%H:%M:%S")
     username = member.name
 
-    draw.text((base.width//2, 20), f"User ke-{member_count}", font=font_count, anchor="mm", fill="#cc00ff")
-    draw.text((base.width//2, base.height - 60), username, font=font_main, anchor="mm", fill="white")
-    draw.text((30, base.height - 40), f"Tanggal: {tanggal}", font=font_small, fill="white")
-    draw.text((base.width - 30, base.height - 40), f"Jam: {jam}", font=font_small, anchor="rd", fill="white")
+    draw.text((base.width//2, 40), f"user #{member_count}", font=font_count, anchor="mm", fill="#cc00ff")
+    draw.text((base.width//2, base.height - 55), username, font=font_main, anchor="mm", fill="white")
+    draw.text((30, base.height - 45), {tanggal}", font=font_small, fill="white")
+    draw.text((base.width - 30, base.height - 40), {jam}", font=font_small, anchor="rd", fill="white")
 
     output = BytesIO()
     output.name = "welcome.png"
