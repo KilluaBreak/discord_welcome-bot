@@ -16,16 +16,14 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 
 @bot.event
 async def on_ready():
-    print(f"✅ Bot {bot.user} sudah online!")
+    print(f"✅ Bot {bot.user} sudah aktif!")
 
 @bot.event
 async def on_member_join(member):
     channel = bot.get_channel(WELCOME_CHANNEL_ID)
     member_count = member.guild.member_count
-
     image = await generate_welcome_image(member, member_count)
     file = discord.File(fp=image, filename="welcome.png")
-
     embed = discord.Embed(title="Welcome!", description=f"{member.mention} selamat datang!", color=discord.Color.purple())
     embed.set_image(url="attachment://welcome.png")
     await channel.send(embed=embed, file=file)
@@ -34,10 +32,8 @@ async def on_member_join(member):
 async def on_member_remove(member):
     channel = bot.get_channel(GOODBYE_CHANNEL_ID)
     member_count = member.guild.member_count
-
     image = await generate_goodbye_image(member, member_count)
     file = discord.File(fp=image, filename="goodbye.png")
-
     embed = discord.Embed(title="Goodbye!", description=f"{member.name} telah keluar.", color=discord.Color.red())
     embed.set_image(url="attachment://goodbye.png")
     await channel.send(embed=embed, file=file)
