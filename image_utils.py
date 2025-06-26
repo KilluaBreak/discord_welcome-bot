@@ -12,7 +12,7 @@ FONT_PATH = "fonts/Kingthings_Exeter.ttf"
 # Ukuran & Posisi berdasarkan gambar 803x451
 AVATAR_SIZE = (180, 180)
 AVATAR_POSITION = (310, 120)
-NAME_POSITION = (400, 50)
+NAME_POSITION = (400, 45)
 USER_NUMBER_POSITION = (400, 330)
 DATE_POSITION = (40, 370)
 TIME_POSITION = (740, 370)
