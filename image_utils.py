@@ -26,7 +26,7 @@ SIZES = {
 LAYOUT = {
     "avatar": (550, 217),   # kiri‑atas lingkaran avatar
     "name": (750, 82),      # username
-    "number": (690, 650),   # nomor urut
+    "number": (680, 600),   # nomor urut
     "time": (60, 635),      # jam
     "date": (1290, 635),    # tanggal
 }
