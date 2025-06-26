@@ -11,7 +11,7 @@ FONT_PATH = "fonts/LibertinusMath-Regular.ttf"
 
 # Ukuran & Posisi berdasarkan gambar 803x451
 AVATAR_SIZE = (180, 180)
-AVATAR_POSITION = (311, 120)
+AVATAR_POSITION = (310, 120)
 NAME_POSITION = (360, 45)
 USER_NUMBER_POSITION = (400, 330)
 DATE_POSITION = (40, 370)
@@ -51,7 +51,7 @@ async def generate_image(member, member_count, base_path):
     draw = ImageDraw.Draw(base)
 
     # Nama user
-    draw.text(NAME_POSITION, member.name.upper(), font=font_big, anchor="mm", fill="white")
+    draw.text(NAME_POSITION, member.name.upper(), font=font_big, anchor="lt", fill="white")
     # Nomor ke berapa
     draw.text(USER_NUMBER_POSITION, f"#{member_count}", font=font_medium, anchor="mm", fill="white")
     # Tanggal dan Jam
