@@ -10,6 +10,7 @@ WELCOME_CHANNEL_ID = int(os.getenv("WELCOME_CHANNEL_ID"))
 GOODBYE_CHANNEL_ID = int(os.getenv("GOODBYE_CHANNEL_ID"))
 VERIF = int(os.getenv("VERIF"))
 RULE = int(os.getenv("RULE"))
+CHAT = int(os.getenv("CHAT"))
 
 intents = discord.Intents.default()
 intents.members = True
