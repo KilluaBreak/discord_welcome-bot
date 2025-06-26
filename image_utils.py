@@ -24,11 +24,11 @@ SIZES = {
 
 # Koordinat titik (x, y)
 LAYOUT = {
-    "avatar": (486, 217),   # kiri‑atas lingkaran avatar
-    "name": (880, 82),      # username
-    "number": (610, 560),   # nomor urut
-    "time": (60, 655),      # jam
-    "date": (1160, 655),    # tanggal
+    "avatar": (500, 217),   # kiri‑atas lingkaran avatar
+    "name": (850, 82),      # username
+    "number": (610, 600),   # nomor urut
+    "time": (60, 635),      # jam
+    "date": (1190, 635),    # tanggal
 }
 
 # Anchor untuk setiap teks (lihat Pillow docs)
