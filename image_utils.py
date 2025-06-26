@@ -6,18 +6,16 @@ import pytz
 # Timezone Indonesia WIB
 WIB = pytz.timezone("Asia/Jakarta")
 
-# Path ke font Kingthings Exeter
+# Path ke font dan ukuran gambar
 FONT_PATH = "fonts/LibertinusMath-Regular.ttf"
+AVATAR_SIZE = (250, 250)
+AVATAR_POSITION = (486, 200)  # Tengah atas
+NAME_POSITION = (840, 60)     # Username di kanan atas
+USER_NUMBER_POSITION = (486, 480)  # Tengah kotak ungu
+DATE_POSITION = (1150, 670)   # Pojok kanan bawah
+TIME_POSITION = (40, 670)     # Pojok kiri bawah
 
-# Ukuran & Posisi berdasarkan gambar 803x451
-AVATAR_SIZE = (180, 180)
-AVATAR_POSITION = (310, 120)
-NAME_POSITION = (360, 45)
-USER_NUMBER_POSITION = (400, 330)
-DATE_POSITION = (40, 370)
-TIME_POSITION = (740, 370)
-
-# Buat crop foto jadi lingkaran
+# Fungsi potong gambar jadi lingkaran
 def crop_circle(image):
     mask = Image.new("L", image.size, 0)
     draw = ImageDraw.Draw(mask)
@@ -31,44 +29,46 @@ async def generate_image(member, member_count, base_path):
     base = Image.open(base_path).convert("RGBA")
 
     # Ambil avatar user
-    avatar_asset = member.display_avatar.replace(format="png", size=256)
+    avatar_asset = member.display_avatar.replace(format="png", size=512)
     avatar_bytes = await avatar_asset.read()
     avatar = Image.open(BytesIO(avatar_bytes)).convert("RGBA")
-    avatar = avatar.resize(AVATAR_SIZE)
+    avatar = avatar.resize(AVATAR_SIZE, Image.LANCZOS)
     avatar = crop_circle(avatar)
     base.paste(avatar, AVATAR_POSITION, avatar)
 
-    # Font
-    font_big = ImageFont.truetype(FONT_PATH, 36)
-    font_medium = ImageFont.truetype(FONT_PATH, 28)
-    font_small = ImageFont.truetype(FONT_PATH, 20)
-
-    # Data waktu
+    # Waktu sekarang
     now = datetime.now(WIB)
     tanggal = now.strftime("%d/%m/%Y")
     jam = now.strftime("%H:%M:%S")
 
+    # Font
+    font_name = ImageFont.truetype(FONT_PATH, 32)
+    font_medium = ImageFont.truetype(FONT_PATH, 28)
+    font_small = ImageFont.truetype(FONT_PATH, 22)
+
     draw = ImageDraw.Draw(base)
 
-    # Nama user
-    draw.text(NAME_POSITION, member.name.upper(), font=font_big, anchor="lt", fill="white")
-    # Nomor ke berapa
-    draw.text(USER_NUMBER_POSITION, f"#{member_count}", font=font_medium, anchor="mm", fill="white")
-    # Tanggal dan Jam
-    draw.text(DATE_POSITION, f"Tanggal: {tanggal}", font=font_small, fill="white")
-    draw.text(TIME_POSITION, f"Jam: {jam}", font=font_small, anchor="rd", fill="white")
+    # Tulis username (huruf besar)
+    draw.text(NAME_POSITION, member.name.upper(), font=font_name, fill="white", anchor="ra")
 
-    # Output hasil
+    # Tulis nomor join
+    draw.text(USER_NUMBER_POSITION, f"{member_count}", font=font_medium, fill="white", anchor="mm")
+
+    # Tulis tanggal dan jam
+    draw.text(DATE_POSITION, f"{tanggal}", font=font_small, fill="white", anchor="rd")
+    draw.text(TIME_POSITION, f"{jam}", font=font_small, fill="white", anchor="ld")
+
+    # Hasilkan file output
     output = BytesIO()
     output.name = "image.png"
     base.save(output, format="PNG")
     output.seek(0)
     return output
 
-# Fungsi untuk welcome
+# Fungsi welcome
 async def generate_welcome_image(member, member_count):
     return await generate_image(member, member_count, "assets/welcome_template.png")
 
-# Fungsi untuk goodbye
+# Fungsi goodbye
 async def generate_goodbye_image(member, member_count):
     return await generate_image(member, member_count, "assets/goodbye_template.png")
