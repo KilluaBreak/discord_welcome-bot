@@ -7,12 +7,12 @@ import pytz
 WIB = pytz.timezone("Asia/Jakarta")
 
 # Path ke font Kingthings Exeter
-FONT_PATH = "fonts/Kingthings_Exeter.ttf"
+FONT_PATH = "fonts/LibertinusMath-Regular.ttf"
 
 # Ukuran & Posisi berdasarkan gambar 803x451
 AVATAR_SIZE = (180, 180)
-AVATAR_POSITION = (310, 120)
-NAME_POSITION = (380, 45)
+AVATAR_POSITION = (311, 120)
+NAME_POSITION = (360, 45)
 USER_NUMBER_POSITION = (400, 330)
 DATE_POSITION = (40, 370)
 TIME_POSITION = (740, 370)
